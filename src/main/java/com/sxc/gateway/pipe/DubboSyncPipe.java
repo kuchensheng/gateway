@@ -5,6 +5,10 @@ import com.alibaba.dubbo.config.ConsumerConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.spring.ReferenceBean;
 import com.alibaba.dubbo.rpc.service.GenericService;
+import com.mermaid.framework.core.mvc.APIResponse;
+import com.sxc.gateway.domain.ApiDefineModule;
+import com.sxc.gateway.pipe.input.HttpGatewayPipeInput;
+import com.sxc.gateway.pipe.input.IPipeInput;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,15 +31,25 @@ import java.util.concurrent.TimeUnit;
  * 11:40   kuchensheng    1.0
  */
 @Configuration
-public class DubboSyncPipe {
+public class DubboSyncPipe implements SuccessSyncPipe {
 
-    @Bean
-    @ConditionalOnMissingBean
-    public GenericService getInstance() throws InterruptedException {
+    @Override
+    public APIResponse doPipe(IPipeInput input) {
+        HttpGatewayPipeInput parse = (HttpGatewayPipeInput) input;
+        ApiDefineModule apiDefine = parse.getApiDefine();
+        try {
+            return getInstance().$invoke(apiDefine.getMethodName(),);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public GenericService getInstance(String interfaceName) throws InterruptedException {
         ReferenceBean<GenericService> referenceBean = new ReferenceBean();
         referenceBean.setRegistry(new RegistryConfig("zookeeper://118.178.186.33:2181"));
-        referenceBean.setInterface("com.sxc.demo.provider.TestService");
-        referenceBean.setVersion("1.0");
+        referenceBean.setInterface(interfaceName);
+//        referenceBean.setVersion("1.0");
         referenceBean.setGeneric(true);
         referenceBean.setCheck(false);
         referenceBean.setConsumer(consumerConfig());
@@ -45,6 +59,10 @@ public class DubboSyncPipe {
         TimeUnit.SECONDS.sleep(2);
         genericService = referenceBean.get();
         return genericService;
+    }
+
+    public GenericService getInstance() throws InterruptedException {
+        return getInstance("com.sxc.demo.provider.TestService");
 
     }
 

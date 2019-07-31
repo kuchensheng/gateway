@@ -2,17 +2,25 @@ package com.sxc.gateway.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.rpc.service.GenericService;
+import com.mermaid.framework.core.mvc.APIResponse;
 import com.sxc.demo.provider.MyJob;
 import com.sxc.demo.provider.TestService;
 import com.sxc.demo.provider.TypeEnum;
 import com.sxc.gateway.pipe.DubboSyncPipe;
+import com.sxc.gateway.pipe.IPipe;
+import com.sxc.gateway.pipe.input.HttpGatewayPipeInput;
+import com.sxc.gateway.pipe.input.IGatewayPipeInput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 /**
  * ClassName:ApiController
@@ -34,14 +42,25 @@ public class ApiController {
 
 
     @Autowired
+    private List<IPipe> pipeList;
+
+    @Autowired
     private DubboSyncPipe dubboSyncPipe;
 
     @Reference(version = "1.0",group = "dubbo")
     private TestService testService;
 
-    @RequestMapping(value = "/test5",method = RequestMethod.GET)
-    public String getExamp5() throws InterruptedException {
-        return testService.sayHello("nihao");
+    @RequestMapping(value = "/test5/{interface}/{method}",method = RequestMethod.GET)
+    public APIResponse getExamp5(@PathVariable String interfaceName, @PathVariable String method) throws InterruptedException {
+        IGatewayPipeInput input = new HttpGatewayPipeInput(
+                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(),
+                interfaceName,method);
+        APIResponse response = null;
+        for (IPipe pipe :pipeList) {
+            response = pipe.doPipe(input);
+            break;
+        }
+        return new APIResponse("200",response);
     }
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
