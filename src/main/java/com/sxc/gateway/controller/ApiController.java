@@ -36,13 +36,13 @@ public class ApiController {
     @Autowired
     private DubboSyncPipe dubboSyncPipe;
 
-    @Reference(version = "1.0",group = "dubbo")
-    private TestService testService;
-
-    @RequestMapping(value = "/test5",method = RequestMethod.GET)
-    public String getExamp5() throws InterruptedException {
-        return testService.sayHello("nihao");
-    }
+//    @Reference(version = "1.0",group = "dubbo")
+//    private TestService testService;
+//
+//    @RequestMapping(value = "/test5",method = RequestMethod.GET)
+//    public String getExamp5() throws InterruptedException {
+//        return testService.sayHello("nihao");
+//    }
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public String getExamp() throws InterruptedException {

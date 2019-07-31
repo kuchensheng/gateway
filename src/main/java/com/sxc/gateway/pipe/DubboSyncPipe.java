@@ -33,17 +33,16 @@ public class DubboSyncPipe {
     @ConditionalOnMissingBean
     public GenericService getInstance() throws InterruptedException {
         ReferenceBean<GenericService> referenceBean = new ReferenceBean();
-        referenceBean.setRegistry(new RegistryConfig("zookeeper://118.178.186.33:2181"));
+        RegistryConfig registryConfig = new RegistryConfig();
+        registryConfig.setAddress("zookeeper://118.178.186.33:2181");
+        referenceBean.setRegistry(registryConfig);
         referenceBean.setInterface("com.sxc.demo.provider.TestService");
-        referenceBean.setVersion("1.0");
+        referenceBean.setVersion("*");
         referenceBean.setGeneric(true);
         referenceBean.setCheck(false);
-        referenceBean.setConsumer(consumerConfig());
         referenceBean.setApplication(new ApplicationConfig("gateway-test"));
-        referenceBean.setGroup("HSF");
+        referenceBean.setGroup("dubbo");
         GenericService genericService = referenceBean.get();
-        TimeUnit.SECONDS.sleep(2);
-        genericService = referenceBean.get();
         return genericService;
 
     }
