@@ -18,6 +18,24 @@
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sxc-snapshots</id>
+            <url>http://121.40.208.242:8081/repository/sxc-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>sxc-release</id>
+            <url>http://121.40.208.242:8081/repository/sxc-release/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>nexus-aliyun</id>
+            <name>nexus-aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
   <dependencies>
 <!--      <dependency>-->
 <!--          <groupId>org.springframework.boot</groupId>-->
@@ -103,6 +121,12 @@
               </exclusion>
           </exclusions>
       </dependency>
+
+      <dependency>
+          <groupId>com.alibaba.cloud</groupId>
+          <artifactId>spring-cloud-starter-dubbo</artifactId>
+          <version>0.9.1.BUILD-SNAPSHOT</version>
+      </dependency>
   </dependencies>
 
   <build>
@@ -142,10 +166,6 @@
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.7.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.0.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
