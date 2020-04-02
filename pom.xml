@@ -12,120 +12,28 @@
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.6.RELEASE</version>
+    </parent>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sxc-snapshots</id>
-            <url>http://121.40.208.242:8081/repository/sxc-snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>sxc-release</id>
-            <url>http://121.40.208.242:8081/repository/sxc-release/</url>
-        </repository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>nexus-aliyun</id>
-            <name>nexus-aliyun</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
   <dependencies>
-<!--      <dependency>-->
-<!--          <groupId>org.springframework.boot</groupId>-->
-<!--          <artifactId>spring-boot-starter-web</artifactId>-->
-<!--          <version>1.5.13.RELEASE</version>-->
-<!--      </dependency>-->
-
-<!--      <dependency>-->
-<!--          <groupId>org.apache.dubbo</groupId>-->
-<!--          <artifactId>dubbo</artifactId>-->
-<!--          <version>2.7.3</version>-->
-<!--          <exclusions>-->
-<!--              <exclusion>-->
-<!--                  <groupId>org.springframework</groupId>-->
-<!--                  <artifactId>spring</artifactId>-->
-<!--              </exclusion>-->
-<!--          </exclusions>-->
-<!--      </dependency>-->
-<!--      <dependency>-->
-<!--          <groupId>org.apache.zookeeper</groupId>-->
-<!--          <artifactId>zookeeper</artifactId>-->
-<!--          <version>3.4.11</version>-->
-
-<!--      </dependency>-->
-
-<!--      <dependency>-->
-<!--          <groupId>com.101tec</groupId>-->
-<!--          <artifactId>zkclient</artifactId>-->
-<!--          <version>0.9</version>-->
-<!--      </dependency>-->
-<!--      <dependency>-->
-<!--          <groupId>org.apache.curator</groupId>-->
-<!--          <artifactId>curator-recipes</artifactId>-->
-<!--          <version>4.0.1</version>-->
-<!--      </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--        <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        <version>1.5.13.RELEASE</version>-->
-<!--    </dependency>-->
-<!--      <dependency>-->
-<!--          <groupId>com.alibaba</groupId>-->
-<!--          <artifactId>dubbo</artifactId>-->
-<!--          <version>2.5.10</version>-->
-<!--      </dependency>-->
-
-<!--      <dependency>-->
-<!--          <groupId>org.apache.zookeeper</groupId>-->
-<!--          <artifactId>zookeeper</artifactId>-->
-<!--          <version>3.4.11</version>-->
-
-<!--      </dependency>-->
-
-<!--      <dependency>-->
-<!--          <groupId>com.101tec</groupId>-->
-<!--          <artifactId>zkclient</artifactId>-->
-<!--          <version>0.9</version>-->
-<!--      </dependency>-->
-
-<!--      <dependency>-->
-<!--          <groupId>org.apache.curator</groupId>-->
-<!--          <artifactId>curator-recipes</artifactId>-->
-<!--          <version>4.0.1</version>-->
-<!--      </dependency>-->
       <dependency>
-          <groupId>com.mermaid.framework</groupId>
-          <artifactId>mermaid-core-dubbo</artifactId>
-          <version>1.4</version>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
       </dependency>
 
       <dependency>
-          <groupId>com.mermaid.framework</groupId>
-          <artifactId>mermaid-response</artifactId>
-          <version>1.4</version>
-          <exclusions>
-              <exclusion>
-                  <groupId>org.springframework</groupId>
-                  <artifactId>spring-context</artifactId>
-              </exclusion>
-              <exclusion>
-                  <groupId>org.springframework</groupId>
-                  <artifactId>spring-core</artifactId>
-              </exclusion>
-          </exclusions>
-      </dependency>
-
-      <dependency>
-          <groupId>com.alibaba.cloud</groupId>
-          <artifactId>spring-cloud-starter-dubbo</artifactId>
-          <version>0.9.1.BUILD-SNAPSHOT</version>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-all</artifactId>
+          <version>4.1.48.Final</version>
       </dependency>
   </dependencies>
 
@@ -207,10 +115,10 @@
                               </goals>
                           </execution>
                       </executions>
-                      <configuration>
-                          <mainClass>com.mermaid.framework.core.MermaidFrameworkEntry</mainClass>
-                          <layout>JAR</layout>
-                      </configuration>
+<!--                      <configuration>-->
+<!--                          <mainClass>com.mermaid.framework.core.MermaidFrameworkEntry</mainClass>-->
+<!--                          <layout>JAR</layout>-->
+<!--                      </configuration>-->
                   </plugin>
 
       <plugin>
