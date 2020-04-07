@@ -24,7 +24,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
+import java.sql.Time;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class GatewayServer implements CommandLineRunner {
@@ -35,7 +37,7 @@ public class GatewayServer implements CommandLineRunner {
         gatewayServer = this;
     }
 
-    @Value("${netty.port}")
+    @Value("${netty.port:18088}")
     private int port;
 
     @Autowired
@@ -90,9 +92,27 @@ public class GatewayServer implements CommandLineRunner {
     }
 
     public void start() throws InterruptedException {
-        this.channelFuture = serverBootstrap.bind(port);
+        this.channelFuture = serverBootstrap.bind(port).sync();
         System.out.println("netty启动完毕,port = "+gatewayServer.port);
-        this.channelFuture.channel().closeFuture().sync();
+        this.channelFuture.channel().closeFuture().sync().addListener(new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture future) throws Exception {
+                System.out.println(future.channel().toString() + "链路关闭");
+                Runtime.getRuntime().addShutdownHook(new Thread(() ->{
+                    System.out.println("Shutdown Hook executor start...");
+                    System.out.println("Netty NioEventLoopGroup shutdownGracefully...");
+                    try {
+                        TimeUnit.SECONDS.sleep(5);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("ShutdownHook execute end...");
+                },""));
+                TimeUnit.SECONDS.sleep(7);
+                System.exit(0);
+
+            }
+        });
     }
 //    public void runner(List<AbstractGatewayHandler> list) {
 //        //创建Reactor线程组，boss用于服务端接收客户端请求，worker用于SocketChannel的网络读写
