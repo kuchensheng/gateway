@@ -16,6 +16,7 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import org.isycore.gateway.core.handlers.HttpFileHandler;
+import org.isycore.gateway.core.handlers.NettyHttpServerHandler;
 import org.isycore.gateway.core.support.HandlerConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,7 +89,8 @@ public class GatewayServer implements CommandLineRunner {
                 .addLast("http-aggregator",new HttpObjectAggregator(65536))
                 .addLast("http-encoder",new HttpResponseEncoder())
                 .addLast("http-chunked",new ChunkedWriteHandler())
-                .addLast("fileServerHandler",new HttpFileHandler());
+                .addLast("fileServerHandler",new HttpFileHandler())
+                .addLast(new NettyHttpServerHandler());
     }
 
     public void start() throws InterruptedException {
